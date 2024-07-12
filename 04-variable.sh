@@ -5,4 +5,4 @@ CUSTDATA="shipping"
 #refer as follows
 
 echo -e "print the ${a}"
-echo -e "print the customer data ${CUSTDATA} [32m ${b} \e [0m"
+echo -e "print the customer data ${CUSTDATA} \e[32m ${b} \e [0m"
