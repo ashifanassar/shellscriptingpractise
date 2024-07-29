@@ -1,24 +1,12 @@
 
 #!/bin/bash
 
-ID=$(id -u)
-if [ $ID -ne 0 ] ; then
-    echo -e "Not the root user"
-    exit 1
-fi
+source components/common.sh #source will keep all the functions
 
 COMPONENT="redis"
 LOGFILE="/tmp/$COMPONENT.log"
 REDIS_REPO="https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
 
-stat() {
-    #this would check if the above executed command is pass or failure
-    if [ $1 -eq 0 ] ; then #$? this would help us to understand if the above executed code is pass or fail
-    echo -e "Success"
-else
-    echo -e "failure"
-    fi
-}
 
 
 
@@ -36,6 +24,7 @@ stat $?
 
 echo -e "Enabling the $COMPONENT visibility"
 sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
+sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
 stat $?
 
 
@@ -43,3 +32,5 @@ echo -e "starting $COMPONENT"
 systemctl enable $COMPONENT &>> $LOGFILE
 systemctl restart $COMPONENT &>> $LOGFILE
 stat $?
+
+#sudo bash wrapper.sh redis

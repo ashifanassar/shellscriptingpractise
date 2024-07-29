@@ -1,25 +1,14 @@
 #!/bin/bash
 
-ID=$(id -u)
-if [ $ID -ne 0 ] ; then
-    echo -e "Not the root user"
-    exit 1
-fi
+
 
 COMPONENT="mongodb"
 LOGFILE="/tmp/$COMPONENT.log"
-MONGO_REPO= "https://raw.githubusercontent.com/stans-robot-project/${COMPONENT}/main/mongo.repo"
-MONGO_SCHEMA=""https://github.com/stans-robot-project/${COMPONENT}/archive/main.zip"
+MONGO_REPO= "https://raw.githubusercontent.com/stans-robot-project/$COMPONENT/main/mongo.repo"
+MONGO_SCHEMA=""https://github.com/stans-robot-project/$COMPONENT/archive/main.zip"
 
+source components/common.sh #source will keep all the functions
 
-stat() {
-    #this would check if the above executed command is pass or failure
-    if [ $1 -eq 0 ] ; then #$? this would help us to understand if the above executed code is pass or fail
-    echo -e "Success"
-else
-    echo -e "failure"
-fi
-}
 
 echo -e "configuring the repos"
 curl -s -o /etc/yum.repos.d/${COMPONENT}.repo ${MONGO_REPO} &>>${LOGFILE}

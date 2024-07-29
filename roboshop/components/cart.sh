@@ -1,24 +1,12 @@
 #!/bin/bash
+source components/common.sh #source will keep all the functions
 
-ID=$(id -u)
-if [ $ID -ne 0 ] ; then
-    echo -e "Not the root user"
-    exit 1
-fi
-
-COMPONENT="user"
+COMPONENT="cart"
 LOGFILE="/tmp/$COMPONENT.log"
 APPUSER="roboshop"
 APPUSER_DIR="/home/roboshop/${COMPONENT}"
 
-stat() {
-    #this would check if the above executed command is pass or failure
-    if [ $1 -eq 0 ] ; then #$? this would help us to understand if the above executed code is pass or fail
-    echo -e "Success"
-else
-    echo -e "failure"
-    fi
-}
+
 
 echo -e "Disabling the default nodejs"
 dnf module disable nodejs -y &>> $LOGFILE
@@ -71,7 +59,7 @@ npm install &>> $LOGFILE
 stat $?
 
 echo -e "Replacing the IP address of the machine with DNS"
-sed -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' ${APPUSER_DIR}/systemd.service
+sed -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' ${APPUSER_DIR}/systemd.service
 mv ${APPUSER_DIR}/systemd.service /etc/systemd/system/${COMPONENT}.service
 stat $?
 
