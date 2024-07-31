@@ -51,7 +51,7 @@ START_SVC
 }
 
 
-#Creating user funtion
+#Creating user function
 CREATE_USER() {
 echo -e "creating the $APPUSER user account"
 id $APPUSER &>> $LOGFILE
@@ -101,5 +101,24 @@ stat $?
 }
 
 MAVEN() {
-    
+    echo -e "Installing Maven"
+    yum install maven -y       &>>  $LOGFILE
+    stat $?
+
+
+#Creating user function
+CREATE_USER
+
+#Downloading and extracting the artifact
+DOWNLOAD_AND_EXTRACT
+
+echo -n "Generating the artifacts:"
+cd ${APPUSER_DIR}
+mvn clean package &>>  $LOGFILE
+mv target/${COMPONENT}-1.0.jar ${COMPONENT}.jar
+stat $?
+
+#Updating the entries
+CONFIG_SVC
+
 }
