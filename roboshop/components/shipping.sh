@@ -13,4 +13,6 @@ MAVEN
 
 
 
+#Running the component
 
+#sudo bash wrapper.sh shipping
