@@ -50,6 +50,7 @@ START_SVC
 
 }
 
+
 #Creating user funtion
 CREATE_USER() {
 echo -e "creating the $APPUSER user account"
@@ -97,4 +98,8 @@ echo -e "Starting the service"
 systemctl eable $COMPONENT   &>> $LOGFILE
 systemctl restart $COMPONENT  &>> $LOGFILE
 stat $?
+}
+
+MAVEN() {
+    
 }
