@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 COMPONENT="mysql"
 LOGFILE="/tmp/$COMPONENT.log"
 MYSQL_REPO= "https://raw.githubusercontent.com/stans-robot-project/$COMPONENT/main/$COMPONENT.repo"
@@ -34,7 +32,7 @@ echo "Fetching $COMPONENT root password:"
 DEFAULT_ROOT_PASS = $(grep "temporary password" /var.log.mysqld.log | awk -F " " '{print $NF}')
 stat $?
 
-echo "show databases;" | mysql -uroot -pRoboShop@1 &>> $LOGFILE
+echo "show databases;" | mysql -uroot -p${mysql_root_password} &>> $LOGFILE
 if [$? -ne 0] ; then
     echo -n "changing the default root password:"
     echo "ALTER USER 'root@'localhost' IDENTIFIED BY 'Roboshop@1' | mysql --connect-exprired-password -uroot -p$DEFAULT_ROOT_PASS
@@ -55,3 +53,6 @@ stat $?
 echo -n "injecting the schema:"
 cd /tmp/${COMPONENT}-main/
 mysql -u root -pRoboShop@1 <shipping.sql &>> $LOGFILE
+
+#command to execute
+#sudo bash wrapper.sh mysql Roboshop@1

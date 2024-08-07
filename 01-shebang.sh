@@ -3,3 +3,5 @@
 echo Welcome to shell scripting
 
 echo "Welcome to the Hello world"
+
+echo "This is the sample"
